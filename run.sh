@@ -10,4 +10,4 @@ if [ ! -f "${FPATH}/Packages" ]; then
 	wget -O ${FPATH}/Packages http://archive.kylinos.cn/kylin/KYLIN-ALL/${MY_PATH}/Packages
 fi
 
-python download.py ${BASE_DIR} ${FPATH}/Packages
+python download.py ${BASE_DIR} ${FPATH}/Packages 50

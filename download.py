@@ -153,7 +153,7 @@ if __name__ == "__main__":
             file = sys.argv[2]
             threads=10
             if (len(sys.argv)>3) :
-                threads = sys.argv[3]
+                threads = int(sys.argv[3])
             rule=PREFIX_STR + '*'
             startDown(file,rule, threads, len(PREFIX_STR),-1)
         except ValueError, e:
