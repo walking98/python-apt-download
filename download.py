@@ -137,6 +137,7 @@ def startDown(url,rule,num,start,decoding=None):
         if (len(l)==0 or not l.startswith(PREFIX_STR)):
             continue
         print 'deb:'  + l[start:]
+        #TODO: get the sha1
         crawl_queue.push(l[start:], 'a')
     for i in range(num):
         d=download(crawl_queue)

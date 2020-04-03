@@ -27,12 +27,21 @@ class MogoQueue():
         )
         return True if record else False
 
-    def push(self, url, title): ##这个函数用来添加新的URL进队列
+    def push(self, url, sha1): ##这个函数用来添加新的URL进队列
         try:
-            self.db.insert({'_id': url, 'status': self.OUTSTANDING, 'title': title})
+            self.db.insert({'_id': url, 'status': self.OUTSTANDING, 'sha1': sha1})
             print(url, '插入队列成功')
         except errors.DuplicateKeyError as e:  ##报错则代表已经存在于队列之中了
-            print(url, '已经存在于队列中了')
+            record = self.db.find_one({'_id': url, 'sha1': sha1})
+            if record:
+                //文件内容没有改变过
+                print(url, '已经存在于队列中了')
+            else:    
+                self.db.find_and_modify(
+                    query={'_id': url},
+                    update={'$set': {'status': self.OUTSTANDING, 'timestamp': datetime.now(), 'sha1':sha1}}
+                )
+                print(url, '文件变更，需要重新下载')
             pass
 
     def pop(self):
@@ -53,9 +62,9 @@ class MogoQueue():
             self.repair()
             raise KeyError
 
-    def pop_title(self, url):
+    def pop_sha1(self, url):
         record = self.db.find_one({'_id': url})
-        return record['title']
+        return record['sha1']
 
     def peek(self):
         """这个函数是取出状态为 OUTSTANDING的文档并返回_id(URL)"""
