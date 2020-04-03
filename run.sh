@@ -15,7 +15,7 @@ function downDir() {
 		wget -O ${FPATH}/Packages.bz2 http://archive.kylinos.cn/kylin/KYLIN-ALL/${mypath}/Packages.bz2
 	fi
 
-	#python download.py ${BASE_DIR} ${FPATH}/Packages 50
+	python download.py ${BASE_DIR} ${FPATH}/Packages 50
 }
 
 dirs=(4.0.2-desktop \
