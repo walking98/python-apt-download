@@ -36,11 +36,8 @@ class MogoQueue():
             if record:
                 //文件内容没有改变过
                 print(url, '已经存在于队列中了')
-            else:    
-                self.db.find_and_modify(
-                    query={'_id': url},
-                    update={'$set': {'status': self.OUTSTANDING, 'timestamp': datetime.now(), 'sha1':sha1}}
-                )
+            else:
+                self.db.update({'_id': url}, {'$set': {'status': self.OUTSTANDING, 'timestamp': datetime.now(), 'sha1':sha1}})    
                 print(url, '文件变更，需要重新下载')
             pass
 
